@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sacred Anurag - The Eternal Knot</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <style>
+        /* रॉयल मैरून और डार्क वेडिंग बैकग्राउंड */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #2b040a 0%, #0d0103 100%);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- गुलाब की पंखुड़ियां गिरने का एनीमेशन --- */
+        .petals-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            background: #ff3355;
+            border-radius: 150px 0 150px 150px;
+            opacity: 0.6;
+            animation: fall 6s linear infinite;
+        }
+        .petal:nth-child(1) { left: 10%; width: 12px; height: 12px; animation-delay: 0s; }
+        .petal:nth-child(2) { left: 30%; width: 8px; height: 8px; animation-delay: 2s; animation-duration: 8s; }
+        .petal:nth-child(3) { left: 50%; width: 14px; height: 14px; animation-delay: 1s; animation-duration: 5s; }
+        .petal:nth-child(4) { left: 70%; width: 10px; height: 10px; animation-delay: 3s; }
+        .petal:nth-child(5) { left: 90%; width: 12px; height: 12px; animation-delay: 1.5s; animation-duration: 7s; }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0.6; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- मैजिक स्विच (बिना जावास्क्रिप्ट के पेज बदलने की ट्रिक) --- */
+        #page-switcher {
+            display: none;
+        }
+
+        /* --- पहला पेज: रॉयल लेटर स्क्रीन --- */
+        .envelope-container {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            display: block;
+        }
+
+        .envelope-title {
+            font-family: 'Great Vibes', cursive;
+            color: #ffcc00;
+            font-size: 46px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px #ff3300, 0 0 20px #ffcc00;
+            letter-spacing: 2px;
+        }
+
+        /* पूरा लिफाफा अब एक क्लिक करने योग्य लेबल है */
+        .letter-envelope {
+            width: 280px;
+            height: 180px;
+            background: #fff5f5;
+            margin: 0 auto;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 51, 0, 0.3);
+            border: 2px solid #ff3300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter-envelope::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 90px solid rgba(255, 51, 0, 0.15);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .letter-envelope:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px #ff3300;
+        }
+
+        .heart-seal {
+            width: 55px;
+            height: 55px;
+            background-color: #ff3300;
+            position: relative;
+            transform: rotate(-45deg);
+            box-shadow: 0 0 20px #ff3300;
+            z-index: 6;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        .heart-seal::before, .heart-seal::after {
+            content: "";
+            width: 55px;
+            height: 55px;
+            background-color: #ff3300;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart-seal::before { top: -27.5px; left: 0; }
+        .heart-seal::after { top: 0; left: 27.5px; }
+
+        /* --- दूसरा पेज: गठबंधन और फेरे विज़ुअल --- */
+        .bond-page {
+            display: none; /* शुरुआत में छुपा हुआ */
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 550px;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        /* --- प्योर CSS क्लिक मैजिक रूल --- */
+        #page-switcher:checked ~ .envelope-container {
+            display: none !important;
+        }
+        #page-switcher:checked ~ .bond-page {
+            display: block !important;
+        }
+
+        .bond-title {
+            font-family: 'Great Vibes', cursive;
+            color: #ffcc00;
+            font-size: 45px;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 15px #ffcc00;
+            letter-spacing: 2px;
+        }
+
+        .bond-subtitle {
+            color: #ff9999;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+        }
+
+        .couple-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 40px auto;
+            width: 100%;
+        }
+
+        .photo-frame {
+            width: 41%;
+            border: 4px solid #ffcc00;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 204, 0, 0.6), inset 0 0 15px rgba(0,0,0,0.5);
+            overflow: hidden;
+            background: #1a0206;
+            position: relative;
+            z-index: 7;
+            animation: frameGlow 2s infinite alternate;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            vertical-align: middle;
+            filter: contrast(110%) brightness(95%);
+        }
+
+        /* भव्य शाही रेशमी लाल दुपट्टा */
+        .royal-dupatta {
+            position: absolute;
+            top: 50%;
+            left: 36%;
+            width: 28%;
+            height: 28px;
+            background: linear-gradient(to bottom, #990000 0%, #e60000 30%, #ff3333 50%, #e60000 70%, #660000 100%);
+            border-top: 2px solid #ffcc00;
+            border-bottom: 2px solid #ffcc00;
+            border-radius: 6px;
+            transform: translateY(-50%);
+            z-index: 8;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* सेंटर की महा-गाँठ */
+        .dupatta-knot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #cc0000, #800000);
+            border: 3px solid #ffcc00;
+            border-radius: 50%;
+            z-index: 9;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+
+        .dupatta-knot::before {
+            content: "";
+            position: absolute;
+            top: 28px; left: 3px;
+            width: 14px; height: 35px;
+            background: #b30000;
+            border-bottom: 3px solid #ffcc00;
+            border-radius: 0 0 5px 5px;
+            transform: rotate(20deg);
+        }
+
+        .dupatta-knot::after {
+            content: "";
+            position: absolute;
+            top: 28px; right: 3px;
+            width: 14px; height: 35px;
+            background: #b30000;
+            border-bottom: 3px solid #ffcc00;
+            border-radius: 0 0 5px 5px;
+            transform: rotate(-20deg);
+        }
+
+        .fere-animation {
+            animation: sacredPhere 12s linear infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: rotate(-45deg) scale(1); }
+            30% { transform: rotate(-45deg) scale(1.1); box-shadow: 0 0 30px #ff3300; }
+        }
+
+        @keyframes frameGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); border-color: #ffcc00; }
+            100% { box-shadow: 0 0 30px rgba(255, 51, 0, 0.8); border-color: #ff3300; }
+        }
+
+        @keyframes sacredPhere {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-2deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CSS से गिरने वाली पंखुड़ियां -->
+    <div class="petals-container">
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+    </div>
+
+    <!-- हिडन चेकबॉक्स जो बिना जावास्क्रिप्ट के क्लिक हैंडल करेगा -->
+    <input type="checkbox" id="page-switcher">
+
+    <!-- पहला पेज: प्रेम पत्र -->
+    <div class="envelope-container" id="envelopePage">
+        <div class="envelope-title">An Unspoken Emotion</div>
+        
+        <label for="page-switcher" class="letter-envelope">
+            <div class="heart-seal"></div>
+        </label>
+    </div>
+
+    <!-- दूसरा पेज: विवाह सूत्र बंधन -->
+    <div class="bond-page" id="bondPage">
+        <div class="bond-title">The Sacred Alliance</div>
+        <div class="bond-subtitle">[ Bound by Destiny, United by Love ]</div>
+        
+        <div class="couple-container fere-animation">
+            <!-- लड़का (Boy File) -->
+            <div class="photo-frame">
+                <img src="boy.jpg.jpg" alt="Boy">
+            </div>
+
+            <!-- दुपट्टा और गाँठ -->
+            <div class="royal-dupatta"></div>
+            <div class="dupatta-knot"></div>
+
+            <!-- लड़की (Girl File) -->
+            <div class="photo-frame">
+                <img src="girl.jpg.jpg" alt="Girl">
